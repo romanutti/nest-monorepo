@@ -3,7 +3,7 @@ export interface HealthResponse {
 }
 
 export enum Status {
-  OK = 'ok',
-  ERROR = 'error',
-  SHUTTING_DOWN = 'shutting_down',
+  OK = 'healthy af',
+  ERROR = 'struggling',
+  SHUTTING_DOWN = 'shutting down',
 }

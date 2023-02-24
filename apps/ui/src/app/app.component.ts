@@ -1,6 +1,6 @@
 import { HealthResponse } from '@angular-nestjs-monorepo/health/api';
 import { AsyncPipe } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { HealthService } from './health.service';
 
@@ -133,11 +133,9 @@ import { HealthService } from './health.service';
                   d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
                 />
               </svg>
-              <span>Your backend is {{ getMessage() | async }}...</span>
+              <span>Your api is {{ getMessage() | async }}...</span>
             </h2>
-            <a href="https://github.com/romanutti/nest-monorepo">
-              View sources
-            </a>
+            <a (click)="checkStatus()"> Check status </a>
           </div>
           <div class="logo-container">
             <svg
@@ -172,11 +170,19 @@ import { HealthService } from './health.service';
     </div>
   `,
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   health$: Observable<HealthResponse>;
 
   constructor(protected service: HealthService) {
-    this.health$ = service.checkHealth();
+    this.health$ = service.status;
+  }
+
+  ngOnInit(): void {
+    this.checkStatus();
+  }
+
+  checkStatus(): void {
+    this.service.checkStatus();
   }
 
   getMessage(): Observable<string> {
